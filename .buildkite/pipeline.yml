@@ -22,13 +22,3 @@ steps:
     retry:
       automatic:
         - exit_status: -1
-
-  - wait
-
-  - label: ":docker: Push cache images"
-    plugins:
-      - docker-compose#v2.6.0:
-          config: .buildkite/docker-compose.yml
-          push:
-            - docker-selenium-example-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite:latest
-            - docker-selenium-example-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite:latest-${BUILDKITE_BRANCH}
