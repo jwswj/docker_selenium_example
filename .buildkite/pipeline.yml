@@ -4,11 +4,11 @@ steps:
       - docker-compose#v2.6.0:
           config: .buildkite/docker-compose.yml
           build:
-            - riparide-buildkite
-          image-repository: 289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite
+            - docker-selenium-example-buildkite
+          image-repository: 289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite
           cache-from:
-            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest
-            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest-${BUILDKITE_BRANCH}
+            - docker-selenium-example-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite:latest
+            - docker-selenium-example-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite:latest-${BUILDKITE_BRANCH}
 
   - wait
 
@@ -17,8 +17,8 @@ steps:
       - docker-compose#v2.6.0:
           config: .buildkite/docker-compose.yml
           push:
-            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest
-            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest-${BUILDKITE_BRANCH}
+            - docker-selenium-example-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite:latest
+            - docker-selenium-example-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/docker-selenium-example-buildkite:latest-${BUILDKITE_BRANCH}
 
 
   - wait
@@ -27,7 +27,7 @@ steps:
     plugins:
       - docker-compose#v2.6.0:
           config: .buildkite/docker-compose.yml
-          run: riparide-buildkite
+          run: docker-selenium-example-buildkite
     env:
       RAILS_ENV: test
     retry:
