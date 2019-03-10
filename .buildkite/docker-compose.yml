@@ -1,0 +1,33 @@
+version: "3.6"
+
+services:
+  docker-selenium-example-buildkite:
+    image: docker-selenium-example/docker-selenium-example:latest
+    build:
+      context: ../.
+      dockerfile: .buildkite/Dockerfile
+    environment:
+      RAILS_ENV: test
+      REDIS_URL: redis://redis
+      DATABASE_URL: "postgresql://postgres@db:5432/docker_selenium_example_test"
+      # CI envs
+      CI:
+      # Switch the capybara driver to use the selenium container
+      CAPYBARA_DRIVER: remote
+      SELENIUM_HOST: selenium
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+    command: ["await", "-v", "tcp4://db:5432", "tcp4://redis:6379", "tcp://selenium:4444", "--", "bundle", "exec", "rake", "db:create", "db:schema:load", "db:migrate", "spec"]
+    depends_on:
+      - db
+      - redis
+      - selenium
+
+  db:
+    image: postgres:9.6-alpine
+
+  redis:
+    image: redis:5-alpine
+
+  selenium:
+    image: selenium/standalone-chrome
+    shm_size: 2g

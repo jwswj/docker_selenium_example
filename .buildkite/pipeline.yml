@@ -1,0 +1,35 @@
+steps:
+  - label: ":docker: Prebuild"
+    plugins:
+      - docker-compose#v2.6.0:
+          config: .buildkite/docker-compose.yml
+          build:
+            - riparide-buildkite
+          image-repository: 289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite
+          cache-from:
+            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest
+            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest-${BUILDKITE_BRANCH}
+
+  - wait
+
+  - label: ":docker: Push cache images"
+    plugins:
+      - docker-compose#v2.6.0:
+          config: .buildkite/docker-compose.yml
+          push:
+            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest
+            - riparide-buildkite:289540927910.dkr.ecr.us-east-2.amazonaws.com/riparide-buildkite:latest-${BUILDKITE_BRANCH}
+
+
+  - wait
+
+  - name: "Test"
+    plugins:
+      - docker-compose#v2.6.0:
+          config: .buildkite/docker-compose.yml
+          run: riparide-buildkite
+    env:
+      RAILS_ENV: test
+    retry:
+      automatic:
+        - exit_status: -1

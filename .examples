@@ -1,0 +1,11 @@
+example_id                                  | status | run_time        |
+------------------------------------------- | ------ | --------------- |
+./spec/features/homepage.rb[1:1]            | failed | 7.09 seconds    |
+./spec/routing/posts_routing_spec.rb[1:1:1] | passed | 0.00096 seconds |
+./spec/routing/posts_routing_spec.rb[1:1:2] | passed | 0.00103 seconds |
+./spec/routing/posts_routing_spec.rb[1:1:3] | passed | 0.00114 seconds |
+./spec/routing/posts_routing_spec.rb[1:1:4] | passed | 0.00105 seconds |
+./spec/routing/posts_routing_spec.rb[1:1:5] | passed | 0.00122 seconds |
+./spec/routing/posts_routing_spec.rb[1:1:6] | passed | 0.00276 seconds |
+./spec/routing/posts_routing_spec.rb[1:1:7] | passed | 0.0011 seconds  |
+./spec/routing/posts_routing_spec.rb[1:1:8] | passed | 0.0011 seconds  |
