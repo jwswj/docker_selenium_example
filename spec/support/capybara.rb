@@ -30,14 +30,8 @@ Capybara.configure do |config|
           chromeOptions: { args: %w[--headless --disable-gpu --no-sandbox --window-size=1280,960] }
         )
     end
-  when "chrome"
-    # Override selenium so screenshots still work
-    Capybara.register_driver :selenium do |app|
-      Capybara::Selenium::Driver.new app,
-        browser: :chrome,
-        driver_opts: {log_path: Rails.root.join("log/chrome.log").to_s}
-    end
   else # headless_chrome
+    # Override selenium so screenshots still work
     Capybara.register_driver :selenium do |app|
       Capybara::Selenium::Driver.new app,
         browser: :chrome,
@@ -88,6 +82,19 @@ RSpec.configure do |config|
   config.after(type: :feature) do
     if Capybara.current_session.driver.is_a? Capybara::Selenium::Driver
       Capybara.current_session.driver.browser.manage.delete_all_cookies
+    end
+  end
+end
+
+# When selenium is running remote, it can run into problems uploading files.
+# The recommendation is the set the file_detector:
+# https://github.com/SeleniumHQ/selenium/blob/2abd80f236d1a7459ef638e96af8c4efd86b4abd/rb/lib/selenium/webdriver/common/driver_extensions/uploads_files.rb#L38-L43
+# This should probably be further scoped down.
+RSpec.configure do |config|
+  config.before(:each, type: :feature, js: true) do
+    Capybara.current_session.driver.browser.file_detector = lambda do |args|
+      str = args.first.to_s
+      str if File.exist?(str)
     end
   end
 end
