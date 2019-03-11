@@ -18,3 +18,12 @@ Testing:
 * Capybara
 
 Tests are run on Buildkite. All the details are in the `.buildkite` directory.
+
+## Where to looks
+
+```
+.buildkite
+spec/support/capybara.rb
+```
+
+Everything else is just stock standard Rails.
