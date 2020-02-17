@@ -9,7 +9,7 @@ services:
     environment:
       RAILS_ENV: test
       REDIS_URL: redis://redis
-      DATABASE_URL: "postgresql://postgres@db:5432/docker_selenium_example_test"
+      DATABASE_URL: "postgresql://postgres:passw0rd@db:5432/docker_selenium_example_test"
       # CI envs
       CI:
       # Switch the capybara driver to use the selenium container
@@ -24,6 +24,8 @@ services:
 
   db:
     image: postgres:9.6-alpine
+    environment:
+      POSTGRES_PASSWORD: 'passw0rd'
 
   redis:
     image: redis:5-alpine
